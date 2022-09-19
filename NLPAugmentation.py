@@ -7,7 +7,7 @@ import random
 # 1. Random insertion
 from transformers import pipeline
 import pandas as pd
-
+import time
 pd.set_option('display.max_columns', None)
 
 # remove [SEP] and [CLS] tokens
@@ -50,8 +50,9 @@ def augment(company_name):
 
     return all_aug_text
 
-
+start_time = time.time()
 df['augmented_company_name'] = df['company_name'].apply(augment)
+print("--- %s minutes ---" % ((time.time() - start_time)/60))
 # Transpose the dataframe
 df = df.explode('augmented_company_name')
 df = df.reset_index(drop=True)
